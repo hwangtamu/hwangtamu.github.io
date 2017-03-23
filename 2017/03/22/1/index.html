@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Han's Imaginary World">
 <meta property="og:description" content="I got to know HTM a year ago when my advisor told me there were internship opportunities in Jeff Hawkins’ company Numenta. Though I didn’t apply for the intern by the end, I did learn and got some bas">
 <meta property="og:image" content="https://raw.githubusercontent.com/wiki/numenta/nupic/images/sdr.png">
-<meta property="og:updated_time" content="2017-03-23T04:05:54.635Z">
+<meta property="og:updated_time" content="2017-03-23T04:13:49.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTM Notes (1) Sparse Distributed Representation">
 <meta name="twitter:description" content="I got to know HTM a year ago when my advisor told me there were internship opportunities in Jeff Hawkins’ company Numenta. Though I didn’t apply for the intern by the end, I did learn and got some bas">
@@ -54,9 +54,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://hwangtamu.github.io"></form>
@@ -103,11 +103,12 @@
 <p>Therefore, the probability that two random SDRs are identical is very very low. (e.g. let <em>n</em>=1024, and <em>w</em>=4, the probability is 1 out of 45 billion.)</p>
 <h4 id="Overlap-Sets"><a href="#Overlap-Sets" class="headerlink" title="Overlap Sets"></a>Overlap Sets</h4><p>An overlap set is defined as the set of SDRs that excatly <em>b</em> bits overlap with SDR <em>x</em>, given <em>n</em> and <em>w</em>.</p>
 <p>The size of the overlap set is the product of the number of subsets of <em>x</em> with <em>b</em> bits on, and the number of other patterns containing <em>n-w</em> bits, of which <em>w-b</em> bits are on.</p>
-<h4 id="Inexact-matching"><a href="#Inexact-matching" class="headerlink" title="Inexact matching"></a>Inexact matching</h4>
+<h4 id="Inexact-matching"><a href="#Inexact-matching" class="headerlink" title="Inexact matching"></a>Inexact matching</h4><p>There’s tradeoff between tolerance of errors (robustness) and the amount of false positives.</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0lvq8w50000f0gh4joq08ix" class="article-share-link">Partager</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0lw1qp800004kghuhmqy1dz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
@@ -128,7 +129,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
     </div>
@@ -138,7 +139,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/HTM/" style="font-size: 10px;">HTM</a>
     </div>
@@ -157,7 +158,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -178,7 +179,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 Han Wang<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
