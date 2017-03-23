@@ -18,7 +18,7 @@
     <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.ico">
   
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -100,14 +100,15 @@
 <p>Therefore, the probability that two random SDRs are identical is very very low. (e.g. let <em>n</em>=1024, and <em>w</em>=4, the probability is 1 out of 45 billion.)</p>
 <h4 id="Overlap-Sets"><a href="#Overlap-Sets" class="headerlink" title="Overlap Sets"></a>Overlap Sets</h4><p>An overlap set is defined as the set of SDRs that excatly <em>b</em> bits overlap with SDR <em>x</em>, given <em>n</em> and <em>w</em>.</p>
 <p>The size of the overlap set is the product of the number of subsets of <em>x</em> with <em>b</em> bits on, and the number of other patterns containing <em>n-w</em> bits, of which <em>w-b</em> bits are on.</p>
-<h4 id="Inexact-matching"><a href="#Inexact-matching" class="headerlink" title="Inexact matching"></a>Inexact matching</h4><p>There’s tradeoff between tolerance of errors (robustness) and the amount of false positives.</p>
-<p><em>overlap(x,y)&gt;=threshold</em> </p>
-<p>If the threshold is decreased, then the change of a random SDR <em>y</em> satisfying the equation increases.</p>
+<h4 id="Inexact-matching-and-subsampling"><a href="#Inexact-matching-and-subsampling" class="headerlink" title="Inexact matching and subsampling"></a>Inexact matching and subsampling</h4><p>Inexact matching and subsampling are similar in finding partial matching between SDRs. There’s tradeoff between tolerance of errors (robustness) and the amount of false positives. </p>
+<p>A false positive SDR <em>y</em> satisfies <em>overlap(x,y)&gt;=threshold</em>. </p>
+<p>Inexact matching decreases the right: The lower the threshold is, the easier for a random SDR <em>y</em> to satisfy the inequation. </p>
+<p>Subsampling increases the left: the smaller the overlap set is, the easier for a random SDR <em>y</em> to satisfy the inequation.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0lyayf200004gghv91f6t6b" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0lzmax000000ogh0128wo8n" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -181,10 +182,15 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
+      <span id="busuanzi_container_site_uv">
+  You got <span id="busuanzi_value_site_uv"></span> visitors
+      </span>
       &copy; 2017 Han Wang<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
 </footer>
     </div>
     <nav id="mobile-nav">
