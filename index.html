@@ -94,7 +94,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/23/2/" data-id="cj0mqemtn00005wghiac04t1p" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/23/2/" data-id="cj0n7t9zf0002c8ghueu20154" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/23/2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -137,7 +137,7 @@ match(x,y)=false, \text{if} x\neq y
 <p>Advantages of SDR: 1. High Efficiency (energy consumption is lower than fully active neural networks) 2. Robustness (high tolerance to noises) 3. High Capacity (the overlap of representation is highly reduced)</p>
 <h2 id="mathematical-properties-of-sdrs">2. Mathematical Properties of SDRs</h2>
 <h4 id="some-basic-terminologies">Some basic terminologies</h4>
-<p><em>w</em>: number of 1s in an SDR. <span class="math inline">\(w=||x||_1\)</span>.</p>
+<p><em>w</em>: number of 1s in an SDR (vector cardinality). <span class="math inline">\(w=||x||_1\)</span>.</p>
 <p><em>Overlap</em>: number of 1s in bitwise AND (Jeff Hawkins used <em>ON</em> in his paper) <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Overlap(01001100, 01000101) = 2</div><div class="line">         ↑   ↑     ↑   ↑</div></pre></td></tr></table></figure></p>
 <p><em>Matching</em>: a boolean value that is <code>True</code> when <code>Overlap</code> exceeds some threshold <span class="math inline">\(\theta\)</span>.</p>
 <h4 id="uniqueness-of-sdr">Uniqueness of SDR</h4>
@@ -148,7 +148,9 @@ match(x,y)=false, \text{if} x\neq y
 <p>The size of the overlap set is the product of the number of subsets of <em>x</em> with <em>b</em> bits on, and the number of other patterns containing <em>n-w</em> bits, of which <em>w-b</em> bits are on.</p>
 <p><span class="math display">\[
 overlap(x,y)=x\cdot y
-\]</span> #### Inexact matching and subsampling Inexact matching and subsampling are similar in finding partial matching between SDRs. There’s tradeoff between tolerance of errors (robustness) and the amount of false positives.</p>
+\]</span></p>
+<h4 id="inexact-matching-and-subsampling">Inexact matching and subsampling</h4>
+<p>Inexact matching and subsampling are similar in finding partial matching between SDRs. There’s tradeoff between tolerance of errors (robustness) and the amount of false positives.</p>
 <p>A false positive SDR <em>y</em> satisfies <span class="math inline">\(overlap(x,y)\geq\theta\)</span>.</p>
 <p>Inexact matching decreases the right side: The lower the threshold is, the easier for a random SDR <em>y</em> to satisfy the inequation.</p>
 <p>Subsampling increases the left side: the smaller the overlap set is, the easier for a random SDR <em>y</em> to satisfy the inequation.</p>
@@ -156,7 +158,7 @@ overlap(x,y)=x\cdot y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0mqemtr00015wghg7p5z2ky" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj0n7t9za0000c8ghgjom4a1y" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -294,20 +296,5 @@ ga('send', 'pageview');
 
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
