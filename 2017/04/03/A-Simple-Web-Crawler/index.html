@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>A Simple Web Crawler | Han&#39;s Imaginary World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Simple Web Crawler">
+<meta property="og:url" content="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/index.html">
+<meta property="og:site_name" content="Han's Imaginary World">
+<meta property="og:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
+<meta property="og:updated_time" content="2017-04-04T02:39:31.156Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A Simple Web Crawler">
+<meta name="twitter:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
+  
+    <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Han&#39;s Imaginary World</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/About">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://hwangtamu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-A-Simple-Web-Crawler" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/03/A-Simple-Web-Crawler/" class="article-date">
+  <time datetime="2017-04-04T01:47:17.000Z" itemprop="datePublished">2017-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      A Simple Web Crawler
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with huge a data set of Human’s names (I mean, more than names in English are there).</p>
+<p>Then I decided to write a web crawler to replicate a local version of the data set.</p>
+<h4 id="packages">Packages</h4>
+<p>Just some standard packages for reading web pages and writing csv files. <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> urllib2, csv</div></pre></td></tr></table></figure></p>
+<h4 id="find-out-what-to-grab">Find out what to grab</h4>
+<p>First I browsed the website carefully.</p>
+<p>There’s a full list of names on <a href="https://www.behindthename.com/names" class="uri" target="_blank" rel="external">https://www.behindthename.com/names</a>. For each name, all its variants can be found at www.behindthename.com/name/XXX/related.</p>
+<p>My plan is to get the URL for each name, and then go to its ralated page, and parse its variants and save them in a list.</p>
+<h4 id="get-a-list-of-urls">Get a list of URLs</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">names = []</div><div class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">69</span>):</div><div class="line">    url = <span class="string">'https://www.behindthename.com/names/'</span>+str(k)</div><div class="line">    a,b = [],[]</div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content, <span class="string">'lxml'</span>)</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b0"</span> &#125;):</div><div class="line">        a += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b1"</span> &#125;):</div><div class="line">        b += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    name = [<span class="string">''</span>]*(len(a)+len(b))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(name)):</div><div class="line">        name[i] = a[i/<span class="number">2</span>] <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span> <span class="keyword">else</span> b[(i<span class="number">-1</span>)/<span class="number">2</span>]</div><div class="line">    names += name</div></pre></td></tr></table></figure>
+<h4 id="get-list-of-name-variants">Get list of name variants</h4>
+<p>Since I only care about English names, so I simply ignore names that cannot be encoded in ASCII.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">d = &#123;&#125;</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> names:</div><div class="line">    url=<span class="string">'https://www.behindthename.com/name/'</span>+n+<span class="string">'/related'</span></div><div class="line"></div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content,<span class="string">'lxml'</span>)</div><div class="line">    rows = soup.findAll(<span class="string">'a'</span>,&#123;<span class="string">'class'</span>:<span class="string">'ngl'</span>&#125;)</div><div class="line"></div><div class="line">    d[n] = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> rows:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            i.string.decode(<span class="string">'ascii'</span>)</div><div class="line">            d[n] += [i.string.encode(<span class="string">'ascii'</span>)]</div><div class="line">        <span class="keyword">except</span> UnicodeEncodeError:</div><div class="line">            <span class="keyword">pass</span></div><div class="line">    d[n] = sorted(list(set(d[n])))</div></pre></td></tr></table></figure>
+<h4 id="write-csv-output">Write CSV output</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    w = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        w.writerow([i]+d[i])</div></pre></td></tr></table></figure>
+<p>Next, I’ll do some work on efficiently accessing the data set.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj12xsbu90000qsghsianpq3u" class="article-share-link">Share</a>
+      
+        <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/01/Takens-Theorem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Takens&#39; Theorem</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dynamical-System/">Dynamical System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTM/">HTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opinions/">Opinions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Dynamical-System/" style="font-size: 10px;">Dynamical System</a> <a href="/tags/HTM/" style="font-size: 20px;">HTM</a> <a href="/tags/Opinions/" style="font-size: 20px;">Opinions</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/03/A-Simple-Web-Crawler/">A Simple Web Crawler</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/01/Takens-Theorem/">Takens&#39; Theorem</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/Sometimes-Naive/">Sometimes Naive</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/2/">HTM Notes (2) Sparse Distributed Representation (Continued)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/24/Chinese-Room-Revisit/">Chinese Room Revisit</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <span id="busuanzi_container_site_uv">
+  You got <span id="busuanzi_value_site_uv"></span> visitors
+      </span>
+      &copy; 2017 Han Wang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/About" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'hwangtamu-github-io';
+  
+  var disqus_url = 'http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-96113475-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
