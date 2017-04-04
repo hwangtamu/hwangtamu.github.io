@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/index.html">
 <meta property="og:site_name" content="Han's Imaginary World">
 <meta property="og:description" content="OK, so I successfully downloaded the data from behindthenames.com. I had to resume the web crawler a couple of times when it got shut down by the web host because the web crawler is kind of DDOS attac">
-<meta property="og:updated_time" content="2017-04-04T21:40:14.101Z">
+<meta property="og:updated_time" content="2017-04-04T21:41:51.995Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Simple Web Crawler 2">
 <meta name="twitter:description" content="OK, so I successfully downloaded the data from behindthenames.com. I had to resume the web crawler a couple of times when it got shut down by the web host because the web crawler is kind of DDOS attac">
@@ -99,11 +99,12 @@
 <p>Then, for each name, there’s a set of its English variants.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> csv</div><div class="line"></div><div class="line">variants = &#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">69</span>):</div><div class="line">    d = &#123;&#125;</div><div class="line">    <span class="keyword">with</span> open(<span class="string">'lookup/'</span>+str(i)+<span class="string">'.csv'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</div><div class="line">        reader = csv.reader(f)</div><div class="line">        k = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> reader:</div><div class="line">            d[k] = i[<span class="number">1</span>:]</div><div class="line">            k += <span class="number">1</span></div><div class="line"></div><div class="line">    names = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> d[i]:</div><div class="line">            <span class="keyword">if</span> j <span class="keyword">not</span> <span class="keyword">in</span> names:</div><div class="line">                names[j] = set([i])</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                names[j].add(i)</div><div class="line">    <span class="keyword">print</span> len(names)</div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> names:</div><div class="line">        variants[n] = set([])</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> names[n]:</div><div class="line">            variants[n] |= set(d[j])</div><div class="line">        variants[n].remove(n)</div><div class="line"></div><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    writer = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> sorted(variants.keys()):</div><div class="line">        writer.writerow([v.upper()]+sorted(list(variants[v])))</div></pre></td></tr></table></figure>
 <p>Sample output: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&apos;AZIZ,Aziz</div><div class="line">&apos;AZRI&apos;EL,Azrael,Azriel</div><div class="line">&apos;EDNAH</div><div class="line">&apos;EFRAYIM,Efraim,Ephraim,Evron,Jevrem</div><div class="line">&apos;EL&apos;AZAR,Elazar,Eleazar,Lazar,Lazare,Lazaros,Lazarus,Lazzaro</div><div class="line">&apos;ELI&apos;EZER,Eliezer</div><div class="line">&apos;ELIFALET,&apos;Elifelet,Eliphalet,Eliphelet</div><div class="line">&apos;ELIFELET,&apos;Elifalet,Eliphalet,Eliphelet</div><div class="line">&apos;ESAW,Esau</div><div class="line">&apos;ESTER,&apos;Ashtoret,Ashtoreth,Astaroth,Astarte,Esfir,Essi,Essie,Esta,Estee,Ester,Estera,Esteri,Esther,Esthiru,Eszter,Eszti,Hester,Hettie,Ishtar</div><div class="line">&apos;EZRA&apos;,Esdras,Ezra,Ezras</div><div class="line">&apos;IRA&apos;,Ira</div><div class="line">&apos;ISMAT</div><div class="line">&apos;ITTAY,Itai,Ithai,Ittai</div><div class="line">&apos;IYYOV,Ayyub,Iob,Iyov,Job,Joby</div><div class="line">&apos;IZEVEL</div><div class="line">&apos;OFRAH,Ofra,Ophrah</div><div class="line">&apos;ORPAH,Oprah,Orpah,Orpha</div></pre></td></tr></table></figure></p>
+<p>There are about 15k names, but the output csv file only takes 5.7MB space, much smaller than I had expcted.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj142ja0h0002l4ghwozgufve" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj142lc5k000260gh04eju8ch" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -271,5 +272,20 @@ ga('send', 'pageview');
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
