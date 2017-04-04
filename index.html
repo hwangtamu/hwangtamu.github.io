@@ -86,7 +86,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with huge a data set of Human’s names (I mean, more than names in English are there).</p>
+        <p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with a huge data set of Human’s names (I mean, more than names in English are there).</p>
 <p>Then I decided to write a web crawler to replicate a local version of the data set.</p>
 <h4 id="packages">Packages</h4>
 <p>Just some standard packages for reading web pages and writing csv files. <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> urllib2, csv</div></pre></td></tr></table></figure></p>
@@ -99,14 +99,13 @@
 <h4 id="get-list-of-name-variants">Get list of name variants</h4>
 <p>Since I only care about English names, so I simply ignore names that cannot be encoded in ASCII.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">d = &#123;&#125;</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> names:</div><div class="line">    url=<span class="string">'https://www.behindthename.com/name/'</span>+n+<span class="string">'/related'</span></div><div class="line"></div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content,<span class="string">'lxml'</span>)</div><div class="line">    rows = soup.findAll(<span class="string">'a'</span>,&#123;<span class="string">'class'</span>:<span class="string">'ngl'</span>&#125;)</div><div class="line"></div><div class="line">    d[n] = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> rows:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            i.string.decode(<span class="string">'ascii'</span>)</div><div class="line">            d[n] += [i.string.encode(<span class="string">'ascii'</span>)]</div><div class="line">        <span class="keyword">except</span> UnicodeEncodeError:</div><div class="line">            <span class="keyword">pass</span></div><div class="line">    d[n] = sorted(list(set(d[n])))</div></pre></td></tr></table></figure>
-<h4 id="write-csv-output">Write CSV output</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    w = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        w.writerow([i]+d[i])</div></pre></td></tr></table></figure>
+<p>It takes a while (1 hour maybe) to grab the data. #### Write CSV output <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    w = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        w.writerow([i]+d[i])</div></pre></td></tr></table></figure></p>
 <p>Next, I’ll do some work on efficiently accessing the data set.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj12xsbu90000qsghsianpq3u" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj12yfs4s0005acgh0bw11elv" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -169,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj12xsbup0006qsghldlcku1o" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj12yfs4s0006acgh6w50n8o7" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -224,7 +223,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj12xsbv50009qsgh1e2e1xsq" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj12yfs4s0009acgh0tmz1ces" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -280,7 +279,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj12xsbup0005qsghm44idqdv" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj12yfs4d0002acgh0be5gi02" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -331,7 +330,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj12xsbup0004qsghkgktnjjs" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj12yfs4s0004acghow0pa616" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -395,7 +394,7 @@ overlap(x,y)=x\cdot y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj12xsbup0002qsghv14k1oxp" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj12yfs4d0000acgh9p08feis" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
