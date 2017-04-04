@@ -5,16 +5,25 @@
   
   <title>HTM Notes (2) Sparse Distributed Representation (Continued) | Han&#39;s Imaginary World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. Classifying a Set of VectorsLet $X$ be a set of SDRs, and for any two SDRs $x,y$ in $X$,$$match(x,y)=false, \text{if} x\neq y$$Then we can tell an SDR $z$ belongs to $X$ if$$\exists x\in X, match(">
+  <meta name="description" content="1. Classifying a Set of Vectors
+Let \(X\) be a set of SDRs, and for any two SDRs \(x,y\) in \(X\), \[
+match(x,y)=false, \text{if} x\neq y
+\] Then we can tell an SDR \(z\) belongs to \(X\) if \[">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTM Notes (2) Sparse Distributed Representation (Continued)">
 <meta property="og:url" content="http://hwangtamu.github.io/2017/03/28/2/index.html">
 <meta property="og:site_name" content="Han's Imaginary World">
-<meta property="og:description" content="1. Classifying a Set of VectorsLet $X$ be a set of SDRs, and for any two SDRs $x,y$ in $X$,$$match(x,y)=false, \text{if} x\neq y$$Then we can tell an SDR $z$ belongs to $X$ if$$\exists x\in X, match(">
+<meta property="og:description" content="1. Classifying a Set of Vectors
+Let \(X\) be a set of SDRs, and for any two SDRs \(x,y\) in \(X\), \[
+match(x,y)=false, \text{if} x\neq y
+\] Then we can tell an SDR \(z\) belongs to \(X\) if \[">
 <meta property="og:updated_time" content="2017-04-04T15:50:43.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTM Notes (2) Sparse Distributed Representation (Continued)">
-<meta name="twitter:description" content="1. Classifying a Set of VectorsLet $X$ be a set of SDRs, and for any two SDRs $x,y$ in $X$,$$match(x,y)=false, \text{if} x\neq y$$Then we can tell an SDR $z$ belongs to $X$ if$$\exists x\in X, match(">
+<meta name="twitter:description" content="1. Classifying a Set of Vectors
+Let \(X\) be a set of SDRs, and for any two SDRs \(x,y\) in \(X\), \[
+match(x,y)=false, \text{if} x\neq y
+\] Then we can tell an SDR \(z\) belongs to \(X\) if \[">
   
     <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
   
@@ -86,20 +95,27 @@
     <div class="article-entry" itemprop="articleBody">
       
         <a id="more"></a>
-<h2 id="1-Classifying-a-Set-of-Vectors"><a href="#1-Classifying-a-Set-of-Vectors" class="headerlink" title="1. Classifying a Set of Vectors"></a>1. Classifying a Set of Vectors</h2><p>Let $X$ be a set of SDRs, and for any two SDRs $x,y$ in $X$,<br>$$<br>match(x,y)=false, \text{if} x\neq y<br>$$<br>Then we can tell an SDR $z$ belongs to $X$ if<br>$$<br>\exists x\in X, match(x,z) = true<br>$$<br>The idea behind set $X$ is similar with nearest neighbour algorithm on the basis of some orthogonal vectors.</p>
-<h2 id="2-Union"><a href="#2-Union" class="headerlink" title="2. Union"></a>2. Union</h2><p>Union is used to store a set of $M$ vectors. </p>
-<p>$x_1 = 00100001$</p>
-<p>$x_2 = 10001000$</p>
-<p>$x_3 = 10000001$</p>
-<p>$x_4 = 00101000$</p>
-<p>$X = x_1 OR x_2 OR x_3 OR x_4 = 10101001$</p>
+<h2 id="classifying-a-set-of-vectors">1. Classifying a Set of Vectors</h2>
+<p>Let <span class="math inline">\(X\)</span> be a set of SDRs, and for any two SDRs <span class="math inline">\(x,y\)</span> in <span class="math inline">\(X\)</span>, <span class="math display">\[
+match(x,y)=false, \text{if} x\neq y
+\]</span> Then we can tell an SDR <span class="math inline">\(z\)</span> belongs to <span class="math inline">\(X\)</span> if <span class="math display">\[
+\exists x\in X, match(x,z) = true
+\]</span> The idea behind set <span class="math inline">\(X\)</span> is similar with nearest neighbour algorithm on the basis of some orthogonal vectors.</p>
+<h2 id="union">2. Union</h2>
+<p>Union is used to store a set of <span class="math inline">\(M\)</span> vectors.</p>
+<p><span class="math inline">\(x_1 = 00100001\)</span></p>
+<p><span class="math inline">\(x_2 = 10001000\)</span></p>
+<p><span class="math inline">\(x_3 = 10000001\)</span></p>
+<p><span class="math inline">\(x_4 = 00101000\)</span></p>
+<p><span class="math inline">\(X = x_1 OR x_2 OR x_3 OR x_4 = 10101001\)</span></p>
 <p>So that a fixed-size SDR vector can store a dynamic set of elements.</p>
-<h2 id="3-SDRs-and-HTM"><a href="#3-SDRs-and-HTM" class="headerlink" title="3. SDRs and HTM"></a>3. SDRs and HTM</h2><p>HTM is a detailed computational theory of the neocortex.</p>
+<h2 id="sdrs-and-htm">3. SDRs and HTM</h2>
+<p>HTM is a detailed computational theory of the neocortex.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj13q22ba0002v8ghftzuhltw" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj13q63xv00052kghhxudum9b" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/2/#disqus_thread" class="article-comment-link">Comments</a>
       
