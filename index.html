@@ -86,26 +86,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with a huge data set of Human’s names (I mean, more than names in English are there).</p>
+        <a id="more"></a>
+<p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with a huge data set of Human’s names (I mean, more than names in English are there).</p>
 <p>Then I decided to write a web crawler to replicate a local version of the data set.</p>
-<h4 id="packages">Packages</h4>
-<p>Just some standard packages for reading web pages and writing csv files. <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> urllib2, csv</div></pre></td></tr></table></figure></p>
-<h4 id="find-out-what-to-grab">Find out what to grab</h4>
-<p>First I browsed the website carefully.</p>
-<p>There’s a full list of names on <a href="https://www.behindthename.com/names" class="uri" target="_blank" rel="external">https://www.behindthename.com/names</a>. For each name, all its variants can be found at www.behindthename.com/name/XXX/related.</p>
+<h4 id="Packages"><a href="#Packages" class="headerlink" title="Packages"></a>Packages</h4><p>Just some standard packages for reading web pages and writing csv files.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> urllib2, csv</div></pre></td></tr></table></figure></p>
+<h4 id="Find-out-what-to-grab"><a href="#Find-out-what-to-grab" class="headerlink" title="Find out what to grab"></a>Find out what to grab</h4><p>First I browsed the website carefully.</p>
+<p>There’s a full list of names on <a href="https://www.behindthename.com/names" target="_blank" rel="external">https://www.behindthename.com/names</a>. For each name, all its variants can be found at www.behindthename.com/name/XXX/related.</p>
 <p>My plan is to get the URL for each name, and then go to its ralated page, and parse its variants and save them in a list.</p>
-<h4 id="get-a-list-of-urls">Get a list of URLs</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">names = []</div><div class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">69</span>):</div><div class="line">    url = <span class="string">'https://www.behindthename.com/names/'</span>+str(k)</div><div class="line">    a,b = [],[]</div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content, <span class="string">'lxml'</span>)</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b0"</span> &#125;):</div><div class="line">        a += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b1"</span> &#125;):</div><div class="line">        b += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    name = [<span class="string">''</span>]*(len(a)+len(b))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(name)):</div><div class="line">        name[i] = a[i/<span class="number">2</span>] <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span> <span class="keyword">else</span> b[(i<span class="number">-1</span>)/<span class="number">2</span>]</div><div class="line">    names += name</div></pre></td></tr></table></figure>
-<h4 id="get-list-of-name-variants">Get list of name variants</h4>
-<p>Since I only care about English names, so I simply ignore names that cannot be encoded in ASCII.</p>
+<h4 id="Get-a-list-of-URLs"><a href="#Get-a-list-of-URLs" class="headerlink" title="Get a list of URLs"></a>Get a list of URLs</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">names = []</div><div class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">69</span>):</div><div class="line">    url = <span class="string">'https://www.behindthename.com/names/'</span>+str(k)</div><div class="line">    a,b = [],[]</div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content, <span class="string">'lxml'</span>)</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b0"</span> &#125;):</div><div class="line">        a += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(<span class="string">"div"</span>, &#123; <span class="string">"class"</span> : <span class="string">"browsename b1"</span> &#125;):</div><div class="line">        b += [i.find(<span class="string">'a'</span>)[<span class="string">'href'</span>].split(<span class="string">'/'</span>)[<span class="number">-1</span>]]</div><div class="line">    name = [<span class="string">''</span>]*(len(a)+len(b))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(name)):</div><div class="line">        name[i] = a[i/<span class="number">2</span>] <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span> <span class="keyword">else</span> b[(i<span class="number">-1</span>)/<span class="number">2</span>]</div><div class="line">    names += name</div></pre></td></tr></table></figure>
+<h4 id="Get-list-of-name-variants"><a href="#Get-list-of-name-variants" class="headerlink" title="Get list of name variants"></a>Get list of name variants</h4><p>Since I only care about English names, so I simply ignore names that cannot be encoded in ASCII.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">d = &#123;&#125;</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> names:</div><div class="line">    url=<span class="string">'https://www.behindthename.com/name/'</span>+n+<span class="string">'/related'</span></div><div class="line"></div><div class="line">    content = urllib2.urlopen(url).read()</div><div class="line">    soup = BeautifulSoup(content,<span class="string">'lxml'</span>)</div><div class="line">    rows = soup.findAll(<span class="string">'a'</span>,&#123;<span class="string">'class'</span>:<span class="string">'ngl'</span>&#125;)</div><div class="line"></div><div class="line">    d[n] = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> rows:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            i.string.decode(<span class="string">'ascii'</span>)</div><div class="line">            d[n] += [i.string.encode(<span class="string">'ascii'</span>)]</div><div class="line">        <span class="keyword">except</span> UnicodeEncodeError:</div><div class="line">            <span class="keyword">pass</span></div><div class="line">    d[n] = sorted(list(set(d[n])))</div></pre></td></tr></table></figure>
-<p>It takes a while (1 hour maybe) to grab the data. #### Write CSV output <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    w = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        w.writerow([i]+d[i])</div></pre></td></tr></table></figure></p>
+<p>It takes a while (1 hour maybe) to grab the data. </p>
+<h4 id="Write-CSV-output"><a href="#Write-CSV-output" class="headerlink" title="Write CSV output"></a>Write CSV output</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'lookup.csv'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">    w = csv.writer(f)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> d.keys():</div><div class="line">        w.writerow([i]+d[i])</div></pre></td></tr></table></figure>
 <p>Next, I’ll do some work on efficiently accessing the data set.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj13pyn5j0002iggheir6yakn" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj13q22ba0004v8ghq7bmjhts" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -141,34 +139,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="motivation">Motivation:</h4>
-<ol style="list-style-type: decimal">
-<li><p>We cannot directly observe the state <span class="math inline">\(x_k\in X\)</span> of a dynamical system.</p></li>
-<li><p>Measurements/observations are completely determined by system states: <span class="math inline">\(\phi: X\to \mathbb{R}\)</span>.</p></li>
-<li><p>Can we reconstruct the system based on observation <span class="math inline">\(Y=(y_0, y_1, ...)=(\phi(x_0),\phi(x_1),...)\)</span>?</p></li>
+        <a id="more"></a>
+<h4 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation:"></a>Motivation:</h4><ol>
+<li><p>We cannot directly observe the state $x_k\in X$ of a dynamical system.</p>
+</li>
+<li><p>Measurements/observations are completely determined by system states: $\phi: X\to \mathbb{R}$.</p>
+</li>
+<li><p>Can we reconstruct  the system based on observation $Y=(y_0, y_1, …)=(\phi(x_0),\phi(x_1),…)$?</p>
+</li>
 </ol>
-<h4 id="takens-theorem">Taken’s Theorem</h4>
-<p>Let <span class="math inline">\(M\)</span> be a compact manifold of dimension <span class="math inline">\(m\)</span>. For pairs <span class="math inline">\((\phi ,y)\)</span>, with <span class="math inline">\(\phi\in Diff^2(M), y\in C^2(M,\mathbb{R})\)</span>, it is a generic (open and dense) property that the map <span class="math display">\[
-\Phi_{(\phi ,y)} : M \to \mathbb{R}^{2m+1}
-\]</span></p>
+<h4 id="Taken’s-Theorem"><a href="#Taken’s-Theorem" class="headerlink" title="Taken’s Theorem"></a>Taken’s Theorem</h4><p>Let $M$ be a compact manifold of dimension $m$. For pairs $(\phi ,y)$, with $\phi\in Diff^2(M), y\in C^2(M,\mathbb{R})$, it is a generic (open and dense) property that the map<br>$$<br>\Phi_{(\phi ,y)} : M \to \mathbb{R}^{2m+1}<br>$$ </p>
 <p>defined by</p>
-<p><span class="math display">\[
-\Phi_{\phi ,y}(x) = (y(x), y(\phi(x)),...,y(\phi^{2m}(x)))
-\]</span></p>
+<p>$$<br>\Phi_{\phi ,y}(x) = (y(x), y(\phi(x)),…,y(\phi^{2m}(x)))<br>$$</p>
 <p>is an embedding.</p>
-<h4 id="a-demo-of-takens-therorem">A Demo of Takens’ Therorem</h4>
-<p>When applying Takens’ Theorem to a Lorentz system:</p>
-<div class="figure">
-<img src="http://i.imgur.com/r8JmMmL.png">
-
-</div>
-<p>Blue: The original Lorentz system Green: The shadow manifold on <span class="math inline">\(X\)</span> Orange: The shadow manifold on <span class="math inline">\(Y\)</span> Red: The shadow manifold on <span class="math inline">\(Z\)</span></p>
-<p>Code: <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> scipy.integrate <span class="keyword">import</span> odeint</div><div class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</div><div class="line"></div><div class="line">rho = <span class="number">28.0</span></div><div class="line">sigma = <span class="number">10.0</span></div><div class="line">beta = <span class="number">8.0</span> / <span class="number">3.0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(state, t)</span>:</span></div><div class="line">  x, y, z = state  <span class="comment"># unpack the state vector</span></div><div class="line">  <span class="keyword">return</span> sigma * (y - x), x * (rho - z) - y, x * y - beta * z  <span class="comment"># derivatives</span></div><div class="line"></div><div class="line">state0 = [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]</div><div class="line">t = np.arange(<span class="number">0.0</span>, <span class="number">40.0</span>, <span class="number">0.01</span>)</div><div class="line">tau = <span class="number">5</span></div><div class="line">states = odeint(f, state0, t)</div><div class="line"></div><div class="line">fig = plt.figure()</div><div class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</div><div class="line">ax.plot(states[:,<span class="number">0</span>], states[:,<span class="number">1</span>], states[:,<span class="number">2</span>])</div><div class="line"><span class="comment">#plt.show()</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</div><div class="line">  a = states[:,i][:<span class="number">-2</span>*tau]</div><div class="line">  b = states[:,i][tau:-tau]</div><div class="line">  c = states[:,i][<span class="number">2</span>*tau:]</div><div class="line">  ax.plot(a,b,c)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<h4 id="A-Demo-of-Takens’-Therorem"><a href="#A-Demo-of-Takens’-Therorem" class="headerlink" title="A Demo of Takens’ Therorem"></a>A Demo of Takens’ Therorem</h4><p>When applying Takens’ Theorem to a Lorentz system:</p>
+<p><img src="http://i.imgur.com/r8JmMmL.png" alt=""></p>
+<p>Blue: The original Lorentz system<br>Green: The shadow manifold on $X$<br>Orange: The shadow manifold on $Y$<br>Red: The shadow manifold on $Z$</p>
+<p>Code:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> scipy.integrate <span class="keyword">import</span> odeint</div><div class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</div><div class="line"></div><div class="line">rho = <span class="number">28.0</span></div><div class="line">sigma = <span class="number">10.0</span></div><div class="line">beta = <span class="number">8.0</span> / <span class="number">3.0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(state, t)</span>:</span></div><div class="line">  x, y, z = state  <span class="comment"># unpack the state vector</span></div><div class="line">  <span class="keyword">return</span> sigma * (y - x), x * (rho - z) - y, x * y - beta * z  <span class="comment"># derivatives</span></div><div class="line"></div><div class="line">state0 = [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]</div><div class="line">t = np.arange(<span class="number">0.0</span>, <span class="number">40.0</span>, <span class="number">0.01</span>)</div><div class="line">tau = <span class="number">5</span></div><div class="line">states = odeint(f, state0, t)</div><div class="line"></div><div class="line">fig = plt.figure()</div><div class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</div><div class="line">ax.plot(states[:,<span class="number">0</span>], states[:,<span class="number">1</span>], states[:,<span class="number">2</span>])</div><div class="line"><span class="comment">#plt.show()</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</div><div class="line">  a = states[:,i][:<span class="number">-2</span>*tau]</div><div class="line">  b = states[:,i][tau:-tau]</div><div class="line">  c = states[:,i][<span class="number">2</span>*tau:]</div><div class="line">  ax.plot(a,b,c)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj13pyn6n0009igghhh4sguuy" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj13q22ba0009v8gh72eyymrf" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -204,26 +196,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Written on June 18, 2014</p>
-<h2 id="the-universe">1.The Universe</h2>
-<p>According to Issac Newton’s theory, all the objects in the universe move regularly, and the perfect universe has neither start point nor end point. Unfortunately, this worldview contradicts with many facts people have observed. In thermodynamics, it is widely accepted and probably the truth that the universe is an isolated system so that all the spontaneous activities in the universe tend to increase the entropy, and the universe will reach thermodynamic equilibrium and end up with heat death. The dissipative structures do not violate this worldview although they could stay steadily in high-energy state but only for a while (lifetime).</p>
-<h2 id="dissipative-structure">2.Dissipative structure</h2>
-<p>A dissipative structure is an open system far from thermodynamic equilibrium, but keeps itself in a steady state by exchanging energy and matter with the environment. The living organisms are typical examples of dissipative structure, e.g., the distribution of temperature in the human body only has tiny fluctuations although it’s far from equilibrium. The nervous system is also a dissipative structure on the basis of body.</p>
+        <a id="more"></a>
+<p>Written on June 18, 2014</p>
+<h2 id="1-The-Universe"><a href="#1-The-Universe" class="headerlink" title="1.The Universe"></a>1.The Universe</h2><p>According to Issac Newton’s theory, all the objects in the universe move regularly, and the perfect universe has neither start point nor end point. Unfortunately, this worldview contradicts with many facts people have observed. In thermodynamics, it is widely accepted and probably the truth that the universe is an isolated system so that all the spontaneous activities in the universe tend to increase the entropy, and the universe will reach thermodynamic equilibrium and end up with heat death. The dissipative structures do not violate this worldview although they could stay steadily in high-energy state but only for a while (lifetime).</p>
+<h2 id="2-Dissipative-structure"><a href="#2-Dissipative-structure" class="headerlink" title="2.Dissipative structure"></a>2.Dissipative structure</h2><p>A dissipative structure is an open system far from thermodynamic equilibrium, but keeps itself in a steady state by exchanging energy and matter with the environment. The living organisms are typical examples of dissipative structure, e.g., the distribution of temperature in the human body only has tiny fluctuations although it’s far from equilibrium. The nervous system is also a dissipative structure on the basis of body.</p>
 <p>These structures are well organized because of they have the power of self-assembly, which decreases uncertainty among a system. In other words, self-assembly can reduce entropy. An example is that the chemistry methods are much harder than biological methods in producing macro-molecular proteins. The living organisms have special tricks to avoid internal randomness.</p>
-<h2 id="life">3.Life</h2>
-<p>Life is a dynamic process. One of the most basic features of life is self-organization (in fact, the living organisms do not have to be able to reproduce). Self-organization consumes matter, energy and keeps the operation of living organisms controllable. In the view of statistical physics, self-organization follows the migration from the most probable state to less likely states. So the entropy in the living organisms is far from maximum. In the book of “GAIA – A New Look at Life on Earth”, James Lovelock pointed out that the entropy reduction must be a general characteristic of life.</p>
+<h2 id="3-Life"><a href="#3-Life" class="headerlink" title="3.Life"></a>3.Life</h2><p>Life is a dynamic process. One of the most basic features of life is self-organization (in fact, the living organisms do not have to be able to reproduce). Self-organization consumes matter, energy and keeps the operation of living organisms controllable. In the view of statistical physics, self-organization follows the migration from the most probable state to less likely states. So the entropy in the living organisms is far from maximum. In the book of “GAIA – A New Look at Life on Earth”, James Lovelock pointed out that the entropy reduction must be a general characteristic of life.</p>
 <p>If this is true, life can possibly exist without an entity because the entropy doesn’t rely on matter exchange.</p>
-<h2 id="entropy">4.Entropy</h2>
-<p>This is a state variable and except for thermodynamics, it is usually defined by some probabilities. When I read the paper “Causal entropic force” again, I found difficulty in explaining intelligence only by the rule of entropy maximization. In competitive sports, players try to establish dominance so that the game will be more relax to play (fault-tolerant); in social activities, people try to make more friends. All these behaviors increase the amount of future choices (entropy). But the problem is people do not always succeed in making the most proper choice. Maybe sometimes problems are beyond the brain capacity and maybe the brain doesn’t care about the probabilities at all. This leads to the discussion of deterministic and non-deterministic.</p>
-<h2 id="deterministic-vs.non-deterministic">5.Deterministic vs. non-deterministic</h2>
-<p>Except for quantum movement, I believe that uncertainty comes from the loss of information. For example, in tossing a coin, if the initial force and all the other necessary information are provided, the result of a toss should be certain. Even if only the initial acceleration is known, there should be a bias on the 0.5/0.5 probability. Another example, we can easily measure the probabilities of waiting for a traffic light by experiment, and of course the probabilities of green light coming within 1 second, and within 1 minute are different as long as the traffic light works properly. But such probabilities make no sense in predicting how long a person has to wait, which becomes deterministic if the traffic light has a countdown timer.</p>
+<h2 id="4-Entropy"><a href="#4-Entropy" class="headerlink" title="4.Entropy"></a>4.Entropy</h2><p>This is a state variable and except for thermodynamics, it is usually defined by some probabilities. When I read the paper “Causal entropic force” again, I found difficulty in explaining intelligence only by the rule of entropy maximization. In competitive sports, players try to establish dominance so that the game will be more relax to play (fault-tolerant); in social activities, people try to make more friends. All these behaviors increase the amount of future choices (entropy). But the problem is people do not always succeed in making the most proper choice. Maybe sometimes problems are beyond the brain capacity and maybe the brain doesn’t care about the probabilities at all. This leads to the discussion of deterministic and non-deterministic.</p>
+<h2 id="5-Deterministic-vs-non-deterministic"><a href="#5-Deterministic-vs-non-deterministic" class="headerlink" title="5.Deterministic vs. non-deterministic"></a>5.Deterministic vs. non-deterministic</h2><p>Except for quantum movement, I believe that uncertainty comes from the loss of information. For example, in tossing a coin, if the initial force and all the other necessary information are provided, the result of a toss should be certain. Even if only the initial acceleration is known, there should be a bias on the 0.5/0.5 probability. Another example, we can easily measure the probabilities of waiting for a traffic light by experiment, and of course the probabilities of green light coming within 1 second, and within 1 minute are different as long as the traffic light works properly. But such probabilities make no sense in predicting how long a person has to wait, which becomes deterministic if the traffic light has a countdown timer.</p>
 <p>Non-deterministic is different from unpredictable. One is about the present and the other is about the future. A continuous time function is deterministic, but not necessarily predictable.</p>
-<p>If we characterize a dynamical system like human brain with only state variables (e.g. Markov process) rather than process variables, the information loss would inevitably bring uncertainty. As far as my understanding, the electric charges and the synapses in a healthy human brain work in a continuous manner. On the whole, human brain works continuously all its life. This is pretty much like a manifold in topological space. If the brain knows well about its work history, there should be no internal uncertainty. The only possible uncertainty comes from the input at present. The process of giving the corresponding output is with this uncertainty but once the output is given, everything is deterministic.</p>
+<p>If we characterize a dynamical system like human brain with only state variables (e.g. Markov process) rather than process variables, the information loss would inevitably bring uncertainty. As far as my understanding, the electric charges and the synapses in a healthy human brain work in a continuous manner. On the whole, human brain works continuously all its life. This is pretty much like a manifold in topological space. If the brain knows well about its work history, there should be no internal uncertainty. The only possible uncertainty comes from the input at present. The process of giving the corresponding output is with this uncertainty but once the output is given, everything is deterministic.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj13pyn6l0006iggh6ki7yyft" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj13q22ba0006v8ghj0h783n5" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -259,27 +247,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="classifying-a-set-of-vectors">1. Classifying a Set of Vectors</h2>
-<p>Let <span class="math inline">\(X\)</span> be a set of SDRs, and for any two SDRs <span class="math inline">\(x,y\)</span> in <span class="math inline">\(X\)</span>, <span class="math display">\[
-match(x,y)=false, \text{if} x\neq y
-\]</span> Then we can tell an SDR <span class="math inline">\(z\)</span> belongs to <span class="math inline">\(X\)</span> if <span class="math display">\[
-\exists x\in X, match(x,z) = true
-\]</span> The idea behind set <span class="math inline">\(X\)</span> is similar with nearest neighbour algorithm on the basis of some orthogonal vectors.</p>
-<h2 id="union">2. Union</h2>
-<p>Union is used to store a set of <span class="math inline">\(M\)</span> vectors.</p>
-<p><span class="math inline">\(x_1 = 00100001\)</span></p>
-<p><span class="math inline">\(x_2 = 10001000\)</span></p>
-<p><span class="math inline">\(x_3 = 10000001\)</span></p>
-<p><span class="math inline">\(x_4 = 00101000\)</span></p>
-<p><span class="math inline">\(X = x_1 OR x_2 OR x_3 OR x_4 = 10101001\)</span></p>
+        <a id="more"></a>
+<h2 id="1-Classifying-a-Set-of-Vectors"><a href="#1-Classifying-a-Set-of-Vectors" class="headerlink" title="1. Classifying a Set of Vectors"></a>1. Classifying a Set of Vectors</h2><p>Let $X$ be a set of SDRs, and for any two SDRs $x,y$ in $X$,<br>$$<br>match(x,y)=false, \text{if} x\neq y<br>$$<br>Then we can tell an SDR $z$ belongs to $X$ if<br>$$<br>\exists x\in X, match(x,z) = true<br>$$<br>The idea behind set $X$ is similar with nearest neighbour algorithm on the basis of some orthogonal vectors.</p>
+<h2 id="2-Union"><a href="#2-Union" class="headerlink" title="2. Union"></a>2. Union</h2><p>Union is used to store a set of $M$ vectors. </p>
+<p>$x_1 = 00100001$</p>
+<p>$x_2 = 10001000$</p>
+<p>$x_3 = 10000001$</p>
+<p>$x_4 = 00101000$</p>
+<p>$X = x_1 OR x_2 OR x_3 OR x_4 = 10101001$</p>
 <p>So that a fixed-size SDR vector can store a dynamic set of elements.</p>
-<h2 id="sdrs-and-htm">3. SDRs and HTM</h2>
-<p>HTM is a detailed computational theory of the neocortex.</p>
+<h2 id="3-SDRs-and-HTM"><a href="#3-SDRs-and-HTM" class="headerlink" title="3. SDRs and HTM"></a>3. SDRs and HTM</h2><p>HTM is a detailed computational theory of the neocortex.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj13pyn5z0004iggha9zk0n7z" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj13q22ba0002v8ghftzuhltw" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -315,22 +297,21 @@ match(x,y)=false, \text{if} x\neq y
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>The Chinese room is a famous thought experiment, proposed by John Searle in 1980, which refutes the statement of “Strong AI”:</p>
+        <a id="more"></a>
+<p>The Chinese room is a famous thought experiment, proposed by John Searle in 1980, which refutes<br>the statement of “Strong AI”:</p>
 <blockquote>
 <p>The appropriately programmed computer with the right inputs and outputs would thereby have a mind in exactly the same sense human beings have minds.</p>
 </blockquote>
 <p>Suppose English is the only language you understand, and you are sitting in a closed room with sufficient library of books that help you do English-Chinese translation and Chinese-English translation. Your task is to interact with a Chinese speaker outside room. The question is: If the Chinese speaker feels like she’s talking with another Chinese speaker in ths task, do you literally understand Chinese?</p>
-<h4 id="chinese-room-and-turing-test">Chinese Room and Turing Test</h4>
-<p>You don’t need knowledge of Chinese language to simulate that you understand Chinese. Machines neither.</p>
+<h4 id="Chinese-Room-and-Turing-Test"><a href="#Chinese-Room-and-Turing-Test" class="headerlink" title="Chinese Room and Turing Test"></a>Chinese Room and Turing Test</h4><p>You don’t need knowledge of Chinese language to simulate that you understand Chinese. Machines neither.</p>
 <p>The task itself can be seen as a Turing test, and the design is similar to Von Neumann architecture. However, the Chinese room tries to testify the existence of “consciousness” or “understanding”, which is a little irrelevant to the statement of Turing. Passing Turing test doesn’t mean a machine has any level of consciousness.</p>
-<h4 id="strong-ai-vs.weak-ai">Strong AI vs. Weak AI</h4>
-<p>Most AI researchers don’t really care about the strong AI research, at least before the mind and consciousness of human can be explained by physiologists.</p>
+<h4 id="Strong-AI-vs-Weak-AI"><a href="#Strong-AI-vs-Weak-AI" class="headerlink" title="Strong AI vs. Weak AI"></a>Strong AI vs. Weak AI</h4><p>Most AI researchers don’t really care about the strong AI research, at least before the mind and consciousness of human can be explained by physiologists.</p>
 <p>There is not any formal statement of what is “real intelligence” yet. Deep neural networks have got higher accuracy than human in some pattern recognition tasks, but no one would say deep learning excedds human intelligence.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj13pyn6k0005igghkyj2weda" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj13q22ba0005v8gh80670v0a" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -366,35 +347,34 @@ match(x,y)=false, \text{if} x\neq y
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>I got to know HTM a year ago when my advisor told me there were internship opportunities in Jeff Hawkins’ company Numenta. Though I didn’t apply for the intern by the end, I did learn and got some basic ideas of their main product – HTM. I really appreciate the company’s persistence towards the discovery of biology-inspired artificial intelligence, especially on today when deep learning has beat more and more opponents and somehow proved the elegance of brute force.<br>
-<img src="http://numenta.com/events/2016/04/26/images/image.png"> <strong>Sparse Distributed Representation (SDR)</strong> is one of the fundamentals of HTM system. SDR can be representad as n-dimensional binary vector, in which only a small percentage of components are 1. ## 1. Biological Evidence <img src="https://raw.githubusercontent.com/wiki/numenta/nupic/images/sdr.png"></p>
+        <a id="more"></a>
+<p>I got to know HTM a year ago when my advisor told me there were internship opportunities in Jeff Hawkins’ company Numenta. Though I didn’t apply for the intern by the end, I did learn and got some basic ideas of their main product – HTM. I really appreciate the company’s persistence towards the discovery of biology-inspired artificial intelligence, especially on today when deep learning has beat more and more opponents and somehow proved the elegance of brute force.<br><img src="http://numenta.com/events/2016/04/26/images/image.png" alt=""><br><strong>Sparse Distributed Representation (SDR)</strong> is one of the fundamentals of HTM system. SDR can be representad as n-dimensional binary vector, in which only a small percentage of components are 1.</p>
+<h2 id="1-Biological-Evidence"><a href="#1-Biological-Evidence" class="headerlink" title="1. Biological Evidence"></a>1. Biological Evidence</h2><p><img src="https://raw.githubusercontent.com/wiki/numenta/nupic/images/sdr.png" alt=""></p>
 <p>Sparse coding may be a general strategy of neural systems to augment memory capacity. Sparse representation of sensory information has been observed in vision, audition, touch and olfactory systems.</p>
 <p>To any given stimulus, only very few amount of neurons have response. And any neuron in the population can only respond to a very small subset of all kinds of stimulus.</p>
-<p>Advantages of SDR: 1. High Efficiency (energy consumption is lower than fully active neural networks) 2. Robustness (high tolerance to noises) 3. High Capacity (the overlap of representation is highly reduced)</p>
-<h2 id="mathematical-properties-of-sdrs">2. Mathematical Properties of SDRs</h2>
-<h4 id="some-basic-terminologies">Some basic terminologies</h4>
-<p><em>w</em>: number of 1s in an SDR (vector cardinality). <span class="math inline">\(w=||x||_1\)</span>.</p>
-<p><em>Overlap</em>: number of 1s in bitwise AND (Jeff Hawkins used <em>ON</em> in his paper) <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Overlap(01001100, 01000101) = 2</div><div class="line">         ↑   ↑     ↑   ↑</div></pre></td></tr></table></figure></p>
-<p><em>Matching</em>: a boolean value that is <code>True</code> when <code>Overlap</code> exceeds some threshold <span class="math inline">\(\theta\)</span>.</p>
-<h4 id="uniqueness-of-sdr">Uniqueness of SDR</h4>
-<p>Given vector dimension <em>n</em> and “norm” <em>w</em>, the number of unique SDRs is simply the <em>w</em>-Combination of set <em>n</em>: <span class="math inline">\(\frac{n!}{w!(n-w)!}\)</span>.</p>
-<p>Therefore, the probability that two random SDRs are identical is very very low. (e.g. let <em>n</em>=1024, and <em>w</em>=4, the probability is 1 out of 45 billion.)</p>
-<h4 id="overlap-sets">Overlap Sets</h4>
-<p>An overlap set is defined as the set of SDRs that excatly <em>b</em> bits overlap with SDR <em>x</em>, given <em>n</em> and <em>w</em>.</p>
+<p>Advantages of SDR:</p>
+<ol>
+<li>High Efficiency (energy consumption is lower than fully active neural networks)</li>
+<li>Robustness (high tolerance to noises)</li>
+<li>High Capacity (the overlap of representation is highly reduced)</li>
+</ol>
+<h2 id="2-Mathematical-Properties-of-SDRs"><a href="#2-Mathematical-Properties-of-SDRs" class="headerlink" title="2. Mathematical Properties of SDRs"></a>2. Mathematical Properties of SDRs</h2><h4 id="Some-basic-terminologies"><a href="#Some-basic-terminologies" class="headerlink" title="Some basic terminologies"></a>Some basic terminologies</h4><p><em>w</em>: number of 1s in an SDR (vector cardinality). $w=||x||_1$. </p>
+<p><em>Overlap</em>: number of 1s in bitwise AND (Jeff Hawkins used <em>ON</em> in his paper)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Overlap(01001100, 01000101) = 2</div><div class="line">         ↑   ↑     ↑   ↑</div></pre></td></tr></table></figure></p>
+<p><em>Matching</em>: a boolean value that is <code>True</code> when <code>Overlap</code> exceeds some threshold $\theta$.</p>
+<h4 id="Uniqueness-of-SDR"><a href="#Uniqueness-of-SDR" class="headerlink" title="Uniqueness of SDR"></a>Uniqueness of SDR</h4><p>Given vector dimension <em>n</em> and “norm” <em>w</em>, the number of unique SDRs is simply the <em>w</em>-Combination of set <em>n</em>: $\frac{n!}{w!(n-w)!}$.</p>
+<p>Therefore, the probability that two random SDRs are identical is very very low. (e.g. let <em>n</em>=1024, and <em>w</em>=4, the probability is 1 out of 45 billion.)</p>
+<h4 id="Overlap-Sets"><a href="#Overlap-Sets" class="headerlink" title="Overlap Sets"></a>Overlap Sets</h4><p>An overlap set is defined as the set of SDRs that excatly <em>b</em> bits overlap with SDR <em>x</em>, given <em>n</em> and <em>w</em>.</p>
 <p>The size of the overlap set is the product of the number of subsets of <em>x</em> with <em>b</em> bits on, and the number of other patterns containing <em>n-w</em> bits, of which <em>w-b</em> bits are on.</p>
-<p><span class="math display">\[
-overlap(x,y)=x\cdot y
-\]</span></p>
-<h4 id="inexact-matching-and-subsampling">Inexact matching and subsampling</h4>
-<p>Inexact matching and subsampling are similar in finding partial matching between SDRs. There’s tradeoff between tolerance of errors (robustness) and the amount of false positives.</p>
-<p>A false positive SDR <em>y</em> satisfies <span class="math inline">\(overlap(x,y)\geq\theta\)</span>.</p>
-<p>Inexact matching decreases the right side: The lower the threshold is, the easier for a random SDR <em>y</em> to satisfy the inequation.</p>
+<p>$$<br>overlap(x,y)=x\cdot y<br>$$</p>
+<h4 id="Inexact-matching-and-subsampling"><a href="#Inexact-matching-and-subsampling" class="headerlink" title="Inexact matching and subsampling"></a>Inexact matching and subsampling</h4><p>Inexact matching and subsampling are similar in finding partial matching between SDRs. There’s tradeoff between tolerance of errors (robustness) and the amount of false positives. </p>
+<p>A false positive SDR <em>y</em> satisfies $overlap(x,y)\geq\theta$. </p>
+<p>Inexact matching decreases the right side: The lower the threshold is, the easier for a random SDR <em>y</em> to satisfy the inequation. </p>
 <p>Subsampling increases the left side: the smaller the overlap set is, the easier for a random SDR <em>y</em> to satisfy the inequation.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj13pyn5j0000iggheirrmb8z" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj13q22av0000v8ghpga95fgj" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
