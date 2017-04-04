@@ -6,28 +6,31 @@
   <title>Takens&#39; Theorem | Han&#39;s Imaginary World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Motivation:
+We cannot directly observe the state $x_k\in X$ of a dynamical system.
 
-We cannot directly observe the state \(x_k\in X\) of a dynamical system.
-Measurements/observations are completely determined by system states: \(\phi: X\to \mathbb{R}\).
-Can we reco">
+Measurements/observations are completely determined by system states: $\phi: X\to \mathbb{R}$.
+
+Can we reconstruct">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Takens' Theorem">
 <meta property="og:url" content="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/index.html">
 <meta property="og:site_name" content="Han's Imaginary World">
 <meta property="og:description" content="Motivation:
+We cannot directly observe the state $x_k\in X$ of a dynamical system.
 
-We cannot directly observe the state \(x_k\in X\) of a dynamical system.
-Measurements/observations are completely determined by system states: \(\phi: X\to \mathbb{R}\).
-Can we reco">
+Measurements/observations are completely determined by system states: $\phi: X\to \mathbb{R}$.
+
+Can we reconstruct">
 <meta property="og:image" content="http://i.imgur.com/r8JmMmL.png">
 <meta property="og:updated_time" content="2017-04-04T15:50:43.173Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Takens' Theorem">
 <meta name="twitter:description" content="Motivation:
+We cannot directly observe the state $x_k\in X$ of a dynamical system.
 
-We cannot directly observe the state \(x_k\in X\) of a dynamical system.
-Measurements/observations are completely determined by system states: \(\phi: X\to \mathbb{R}\).
-Can we reco">
+Measurements/observations are completely determined by system states: $\phi: X\to \mathbb{R}$.
+
+Can we reconstruct">
 <meta name="twitter:image" content="http://i.imgur.com/r8JmMmL.png">
   
     <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
@@ -100,34 +103,27 @@ Can we reco">
     <div class="article-entry" itemprop="articleBody">
       
         <a id="more"></a>
-<h4 id="motivation">Motivation:</h4>
-<ol style="list-style-type: decimal">
-<li><p>We cannot directly observe the state <span class="math inline">\(x_k\in X\)</span> of a dynamical system.</p></li>
-<li><p>Measurements/observations are completely determined by system states: <span class="math inline">\(\phi: X\to \mathbb{R}\)</span>.</p></li>
-<li><p>Can we reconstruct the system based on observation <span class="math inline">\(Y=(y_0, y_1, ...)=(\phi(x_0),\phi(x_1),...)\)</span>?</p></li>
+<h4 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation:"></a>Motivation:</h4><ol>
+<li><p>We cannot directly observe the state $x_k\in X$ of a dynamical system.</p>
+</li>
+<li><p>Measurements/observations are completely determined by system states: $\phi: X\to \mathbb{R}$.</p>
+</li>
+<li><p>Can we reconstruct  the system based on observation $Y=(y_0, y_1, …)=(\phi(x_0),\phi(x_1),…)$?</p>
+</li>
 </ol>
-<h4 id="takens-theorem">Taken’s Theorem</h4>
-<p>Let <span class="math inline">\(M\)</span> be a compact manifold of dimension <span class="math inline">\(m\)</span>. For pairs <span class="math inline">\((\phi ,y)\)</span>, with <span class="math inline">\(\phi\in Diff^2(M), y\in C^2(M,\mathbb{R})\)</span>, it is a generic (open and dense) property that the map <span class="math display">\[
-\Phi_{(\phi ,y)} : M \to \mathbb{R}^{2m+1}
-\]</span></p>
+<h4 id="Taken’s-Theorem"><a href="#Taken’s-Theorem" class="headerlink" title="Taken’s Theorem"></a>Taken’s Theorem</h4><p>Let $M$ be a compact manifold of dimension $m$. For pairs $(\phi ,y)$, with $\phi\in Diff^2(M), y\in C^2(M,\mathbb{R})$, it is a generic (open and dense) property that the map<br>$$<br>\Phi_{(\phi ,y)} : M \to \mathbb{R}^{2m+1}<br>$$ </p>
 <p>defined by</p>
-<p><span class="math display">\[
-\Phi_{\phi ,y}(x) = (y(x), y(\phi(x)),...,y(\phi^{2m}(x)))
-\]</span></p>
+<p>$$<br>\Phi_{\phi ,y}(x) = (y(x), y(\phi(x)),…,y(\phi^{2m}(x)))<br>$$</p>
 <p>is an embedding.</p>
-<h4 id="a-demo-of-takens-therorem">A Demo of Takens’ Therorem</h4>
-<p>When applying Takens’ Theorem to a Lorentz system:</p>
-<div class="figure">
-<img src="http://i.imgur.com/r8JmMmL.png">
-
-</div>
-<p>Blue: The original Lorentz system Green: The shadow manifold on <span class="math inline">\(X\)</span> Orange: The shadow manifold on <span class="math inline">\(Y\)</span> Red: The shadow manifold on <span class="math inline">\(Z\)</span></p>
-<p>Code: <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> scipy.integrate <span class="keyword">import</span> odeint</div><div class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</div><div class="line"></div><div class="line">rho = <span class="number">28.0</span></div><div class="line">sigma = <span class="number">10.0</span></div><div class="line">beta = <span class="number">8.0</span> / <span class="number">3.0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(state, t)</span>:</span></div><div class="line">  x, y, z = state  <span class="comment"># unpack the state vector</span></div><div class="line">  <span class="keyword">return</span> sigma * (y - x), x * (rho - z) - y, x * y - beta * z  <span class="comment"># derivatives</span></div><div class="line"></div><div class="line">state0 = [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]</div><div class="line">t = np.arange(<span class="number">0.0</span>, <span class="number">40.0</span>, <span class="number">0.01</span>)</div><div class="line">tau = <span class="number">5</span></div><div class="line">states = odeint(f, state0, t)</div><div class="line"></div><div class="line">fig = plt.figure()</div><div class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</div><div class="line">ax.plot(states[:,<span class="number">0</span>], states[:,<span class="number">1</span>], states[:,<span class="number">2</span>])</div><div class="line"><span class="comment">#plt.show()</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</div><div class="line">  a = states[:,i][:<span class="number">-2</span>*tau]</div><div class="line">  b = states[:,i][tau:-tau]</div><div class="line">  c = states[:,i][<span class="number">2</span>*tau:]</div><div class="line">  ax.plot(a,b,c)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<h4 id="A-Demo-of-Takens’-Therorem"><a href="#A-Demo-of-Takens’-Therorem" class="headerlink" title="A Demo of Takens’ Therorem"></a>A Demo of Takens’ Therorem</h4><p>When applying Takens’ Theorem to a Lorentz system:</p>
+<p><img src="http://i.imgur.com/r8JmMmL.png" alt=""></p>
+<p>Blue: The original Lorentz system<br>Green: The shadow manifold on $X$<br>Orange: The shadow manifold on $Y$<br>Red: The shadow manifold on $Z$</p>
+<p>Code:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> scipy.integrate <span class="keyword">import</span> odeint</div><div class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</div><div class="line"></div><div class="line">rho = <span class="number">28.0</span></div><div class="line">sigma = <span class="number">10.0</span></div><div class="line">beta = <span class="number">8.0</span> / <span class="number">3.0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(state, t)</span>:</span></div><div class="line">  x, y, z = state  <span class="comment"># unpack the state vector</span></div><div class="line">  <span class="keyword">return</span> sigma * (y - x), x * (rho - z) - y, x * y - beta * z  <span class="comment"># derivatives</span></div><div class="line"></div><div class="line">state0 = [<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>]</div><div class="line">t = np.arange(<span class="number">0.0</span>, <span class="number">40.0</span>, <span class="number">0.01</span>)</div><div class="line">tau = <span class="number">5</span></div><div class="line">states = odeint(f, state0, t)</div><div class="line"></div><div class="line">fig = plt.figure()</div><div class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</div><div class="line">ax.plot(states[:,<span class="number">0</span>], states[:,<span class="number">1</span>], states[:,<span class="number">2</span>])</div><div class="line"><span class="comment">#plt.show()</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</div><div class="line">  a = states[:,i][:<span class="number">-2</span>*tau]</div><div class="line">  b = states[:,i][tau:-tau]</div><div class="line">  c = states[:,i][<span class="number">2</span>*tau:]</div><div class="line">  ax.plot(a,b,c)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj13r8lh00009lsgh7fekqh3f" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj13rbnzt0009togh3err8w9e" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/#disqus_thread" class="article-comment-link">Comments</a>
       
