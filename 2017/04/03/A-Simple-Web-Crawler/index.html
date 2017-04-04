@@ -5,16 +5,16 @@
   
   <title>A Simple Web Crawler | Han&#39;s Imaginary World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a websit">
+  <meta name="description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Simple Web Crawler">
 <meta property="og:url" content="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/index.html">
 <meta property="og:site_name" content="Han's Imaginary World">
-<meta property="og:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a websit">
-<meta property="og:updated_time" content="2017-04-04T15:58:37.181Z">
+<meta property="og:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
+<meta property="og:updated_time" content="2017-04-04T16:00:49.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Simple Web Crawler">
-<meta name="twitter:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a websit">
+<meta name="twitter:description" content="Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website">
   
     <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
   
@@ -85,8 +85,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with a huge data set of Human’s names (I mean, more than names in English are there).</p>
+        <p>Recently I’m working on a project, and as part of the project, I need to get data of English name variations. Asking for the internet is always the first choice. Thank Mike Campbell, I found a website <a href="https://www.behindthename.com/" target="_blank" rel="external">www.behindthename.com/</a> with a huge data set of Human’s names (I mean, more than names in English are there).</p>
 <p>Then I decided to write a web crawler to replicate a local version of the data set.</p>
 <h4 id="Packages"><a href="#Packages" class="headerlink" title="Packages"></a>Packages</h4><p>Just some standard packages for reading web pages and writing csv files.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> urllib2, csv</div></pre></td></tr></table></figure></p>
 <h4 id="Find-out-what-to-grab"><a href="#Find-out-what-to-grab" class="headerlink" title="Find out what to grab"></a>Find out what to grab</h4><p>First I browsed the website carefully.</p>
@@ -102,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj13qbycs0005isghvl4ezl43" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj13qll4v0000hkgh4ktnywtv" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -270,5 +269,20 @@ ga('send', 'pageview');
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
