@@ -64,6 +64,72 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" class="article-date">
+  <time datetime="2017-04-09T19:26:10.000Z" itemprop="datePublished">2017-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>– Paper by Jeff Hawkins and Subutai Ahmad</p>
+<h4 id="neuron-reliability-recognize-multiple-sparse-patterns">Neuron Reliability Recognize Multiple Sparse Patterns</h4>
+<p>Former View: A neuron computes a single weighted sum of all its synapses.</p>
+<p>Active dendrites suggest a different view of the neurons, where neurons recognize many independent unique patterns. Some paper s show a small set of neighboring synapses acts as a pattern detector, and the thousands of synapses on a cell’s dendrites act as a set of independent pattern detectors.</p>
+<p>Using sparse encoding / sub-sampling, 8-20 synapses is possible for robust recognition.</p>
+<h4 id="sources-of-synaptic-input-to-cortical-neurons">Sources of Synaptic Input to Cortical Neurons</h4>
+<ol style="list-style-type: decimal">
+<li>Proximal synapses define the classic receptive field of a cell.</li>
+<li>Basal synapses learn transition in sequences. They recognize patterns of cell activity that precede the neuron firing. (Also local inhibition)</li>
+<li>Apical synapses invoke a top-down expectation. Depolarization caused by the apical dendrites is used to establish a top-down expectation (prediction).</li>
+</ol>
+<h4 id="learning-rule">Learning Rule</h4>
+<p>Summary: 1. learning occurs by growing and removing synapses from a pool of “potential” synapses. 2. Hebbian learning and synaptic changes occur at the level of the dendritic segment, not the entire neuron.</p>
+<p>A threshold is used to represent the establishment of a synapse.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">weight_of_synapse = 1 if permanence &gt; threshold else 0</div></pre></td></tr></table></figure>
+<p>Using a scalar permanence value enables on-line learning in the presence of noise.</p>
+<blockquote>
+<p>The activation strength of any one neuron or synapse is not very important.</p>
+</blockquote>
+<h4 id="network-capacity-and-generalization">Network Capacity and Generalization</h4>
+<p>Though the model is called “sequence memory”, it is actually a memory of transitions. There is no representation or concept of the length of sequences or of the number of stored sequences. The network only learns transitions between inputs.</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" data-id="cj1b30dhl0006gsghnv8eqxzh" class="article-share-link">Share</a>
+      
+        <a href="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-A-Simple-Web-Crawler-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/04/04/A-Simple-Web-Crawler-2/" class="article-date">
@@ -110,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj142lc5k000260gh04eju8ch" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj1b30dhh0005gsgh0qvvjbma" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -170,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj142lc60000460ghnxxcpgut" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj1b30dh90004gsghf2ewz3y5" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -239,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj142lc60000b60ghrhg1bvna" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj1b30dhx000bgsghj3pfno9g" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -300,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj142lc60000660ghe20uruxe" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj1b30dhz000egsgh8elv59po" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -362,7 +428,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj142lc60000560ghc3e3cj8a" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj1b30dgs0000gsgh4nph4ue5" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -419,7 +485,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj142lc60000960ghyg3o728r" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj1b30dhp0009gsghp31po9ev" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -488,7 +554,7 @@ overlap(x,y)=x\cdot y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj142lc5k000060gh760oism1" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj1b30dh10002gsghc8423rry" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -525,7 +591,7 @@ overlap(x,y)=x\cdot y
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Dynamical-System/" style="font-size: 10px;">Dynamical System</a> <a href="/tags/HTM/" style="font-size: 20px;">HTM</a> <a href="/tags/Opinions/" style="font-size: 20px;">Opinions</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a>
+      <a href="/tags/Dynamical-System/" style="font-size: 10px;">Dynamical System</a> <a href="/tags/HTM/" style="font-size: 20px;">HTM</a> <a href="/tags/Opinions/" style="font-size: 15px;">Opinions</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a>
     </div>
   </div>
 
@@ -547,6 +613,10 @@ overlap(x,y)=x\cdot y
       <ul>
         
           <li>
+            <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</a>
+          </li>
+        
+          <li>
             <a href="/2017/04/04/A-Simple-Web-Crawler-2/">A Simple Web Crawler 2</a>
           </li>
         
@@ -560,10 +630,6 @@ overlap(x,y)=x\cdot y
         
           <li>
             <a href="/2017/03/28/Sometimes-Naive/">Sometimes Naive</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/28/2/">HTM Notes (2) Sparse Distributed Representation (Continued)</a>
           </li>
         
       </ul>

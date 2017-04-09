@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2017/4 | Han&#39;s Imaginary World</title>
+  <title>Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex | Han&#39;s Imaginary World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Han&apos;s personal blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Han's Imaginary World">
-<meta property="og:url" content="http://hwangtamu.github.io/archives/2017/04/index.html">
+  <meta name="description" content="– Paper by Jeff Hawkins and Subutai Ahmad
+Neuron Reliability Recognize Multiple Sparse Patterns
+Former View: A neuron computes a single weighted sum of all its synapses.
+Active dendrites suggest a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex">
+<meta property="og:url" content="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/index.html">
 <meta property="og:site_name" content="Han's Imaginary World">
-<meta property="og:description" content="Han&apos;s personal blog">
+<meta property="og:description" content="– Paper by Jeff Hawkins and Subutai Ahmad
+Neuron Reliability Recognize Multiple Sparse Patterns
+Former View: A neuron computes a single weighted sum of all its synapses.
+Active dendrites suggest a">
+<meta property="og:updated_time" content="2017-04-09T19:27:55.462Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Han's Imaginary World">
-<meta name="twitter:description" content="Han&apos;s personal blog">
+<meta name="twitter:title" content="Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex">
+<meta name="twitter:description" content="– Paper by Jeff Hawkins and Subutai Ahmad
+Neuron Reliability Recognize Multiple Sparse Patterns
+Former View: A neuron computes a single weighted sum of all its synapses.
+Active dendrites suggest a">
   
     <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
   
@@ -62,98 +72,83 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" class="archive-article-date">
-  <time datetime="2017-04-09T19:26:10.000Z" itemprop="datePublished">Apr 9</time>
+        <section id="main"><article id="post-Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" class="article-date">
+  <time datetime="2017-04-09T19:26:10.000Z" itemprop="datePublished">2017-04-09</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</a>
+    <h1 class="article-title" itemprop="name">
+      Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/04/04/A-Simple-Web-Crawler-2/" class="archive-article-date">
-  <time datetime="2017-04-04T21:04:42.000Z" itemprop="datePublished">Apr 4</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/04/A-Simple-Web-Crawler-2/">A Simple Web Crawler 2</a>
-    </h1>
-  
+        <p>– Paper by Jeff Hawkins and Subutai Ahmad</p>
+<h4 id="neuron-reliability-recognize-multiple-sparse-patterns">Neuron Reliability Recognize Multiple Sparse Patterns</h4>
+<p>Former View: A neuron computes a single weighted sum of all its synapses.</p>
+<p>Active dendrites suggest a different view of the neurons, where neurons recognize many independent unique patterns. Some paper s show a small set of neighboring synapses acts as a pattern detector, and the thousands of synapses on a cell’s dendrites act as a set of independent pattern detectors.</p>
+<p>Using sparse encoding / sub-sampling, 8-20 synapses is possible for robust recognition.</p>
+<h4 id="sources-of-synaptic-input-to-cortical-neurons">Sources of Synaptic Input to Cortical Neurons</h4>
+<ol style="list-style-type: decimal">
+<li>Proximal synapses define the classic receptive field of a cell.</li>
+<li>Basal synapses learn transition in sequences. They recognize patterns of cell activity that precede the neuron firing. (Also local inhibition)</li>
+<li>Apical synapses invoke a top-down expectation. Depolarization caused by the apical dendrites is used to establish a top-down expectation (prediction).</li>
+</ol>
+<h4 id="learning-rule">Learning Rule</h4>
+<p>Summary: 1. learning occurs by growing and removing synapses from a pool of “potential” synapses. 2. Hebbian learning and synaptic changes occur at the level of the dendritic segment, not the entire neuron.</p>
+<p>A threshold is used to represent the establishment of a synapse.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">weight_of_synapse = 1 if permanence &gt; threshold else 0</div></pre></td></tr></table></figure>
+<p>Using a scalar permanence value enables on-line learning in the presence of noise.</p>
+<blockquote>
+<p>The activation strength of any one neuron or synapse is not very important.</p>
+</blockquote>
+<h4 id="network-capacity-and-generalization">Network Capacity and Generalization</h4>
+<p>Though the model is called “sequence memory”, it is actually a memory of transitions. There is no representation or concept of the length of sequences or of the number of stored sequences. The network only learns transitions between inputs.</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/04/03/A-Simple-Web-Crawler/" class="archive-article-date">
-  <time datetime="2017-04-04T01:47:17.000Z" itemprop="datePublished">Apr 3</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/03/A-Simple-Web-Crawler/">A Simple Web Crawler</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/04/01/Takens-Theorem/" class="archive-article-date">
-  <time datetime="2017-04-01T18:20:45.000Z" itemprop="datePublished">Apr 1</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" data-id="cj1b30dhl0006gsghnv8eqxzh" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/01/Takens-Theorem/">Takens&#39; Theorem</a>
-    </h1>
-  
+        <a href="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/04/A-Simple-Web-Crawler-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">A Simple Web Crawler 2</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -252,11 +247,13 @@
 <script>
   var disqus_shortname = 'hwangtamu-github-io';
   
+  var disqus_url = 'http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
