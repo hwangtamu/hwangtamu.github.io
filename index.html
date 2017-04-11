@@ -64,6 +64,78 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Chetan-Surpur-CLA-in-Nupic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/" class="article-date">
+  <time datetime="2017-04-11T02:04:01.000Z" itemprop="datePublished">2017-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/">Chetan Surpur: CLA in Nupic</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is a text summary from Chetan Surpur’s <a href="http://chetansurpur.com/slides/2014/5/4/cla-in-nupic.html" target="_blank" rel="external">slides</a>:</p>
+<h3 id="overview">Overview</h3>
+<p><strong>SDR</strong> is distributed and sparse, which means each bit has semantic meaning and few bits are on, more are off.</p>
+<p><strong>CLA</strong> is an algorithm that describes the operation of a single layer of cortical neurons. The pattern can either be spatial or temporal. Each column represents some meaning, and each cell represents the same meaning to the column but in different context (this is the key of learning high-order sequences). Learning occurs by forming and un-forming connections between neurons (cells).</p>
+<h3 id="spatial-pooler">Spatial Pooler</h3>
+<p>Spatial pooler maps a non-sparse representation of bits to SDR, and unions similar inputs.</p>
+<p>Input: a vector of bits, can be the output of an encoder, or the cells in a previous layer.</p>
+<p>Output: activation of columns.</p>
+<p>Each cell in a column behaves identically, and the whole column is connected to inputs. Each column is mapped to a subset of input bits. More bits on, more likely the column becomes activated. The receptive field and percentage threshold of connections are controlled by <code>potentialRadius</code> and <code>potentialPct</code>. <code>potentialPct</code> helps adjacent columns learn to represent different inputs.</p>
+<p><strong>Permanence</strong> represents the potential for a connection to be formed between column and input. Minimum “connect” threshold: <code>synPermConnected</code> There are several ways to initialize the permanence of a cell: Gaussian, Random, etc.</p>
+<p>To force the output to be sparse, local inhibition is used to columns within a inhibition radius. The radius is dynamic with the growth and death of connections. It’s estimated with the average range of inputs that each column is connected to, and the average number of columns each input is connected to.</p>
+<h4 id="compute">Compute</h4>
+<ol style="list-style-type: decimal">
+<li>For each column, compute an “overlap score” that represents how many input bits are “actively connected” to the column.</li>
+<li>Boost if needed.</li>
+<li>Check inhibition: for each column, look at the neighboring columns within inhibition radius</li>
+<li>Keep the top N columns by overlap score</li>
+<li><p>N is chosen to achieve a desired sparsity(<code>localAreaDensity</code>,<code>numActiveColumnsPerInhArea</code>) <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_inhibitColumns</span><span class="params">(self, overlaps)</span>:</span></div><div class="line">  <span class="string">"""</span></div><div class="line">  Performs inhibition. This method calculates the necessary values needed to</div><div class="line">  actually perform inhibition and then delegates the task of picking the</div><div class="line">  active columns to helper functions.</div><div class="line"></div><div class="line">  Parameters:</div><div class="line">  ----------------------------</div><div class="line">  :param overlaps: an array containing the overlap score for each  column.</div><div class="line">                  The overlap score for a column is defined as the number</div><div class="line">                  of synapses in a "connected state" (connected synapses)</div><div class="line">                  that are connected to input bits which are turned on.</div><div class="line">  """</div><div class="line">  <span class="comment"># determine how many columns should be selected in the inhibition phase.</span></div><div class="line">  <span class="comment"># This can be specified by either setting the 'numActiveColumnsPerInhArea'</span></div><div class="line">  <span class="comment"># parameter or the 'localAreaDensity' parameter when initializing the class</span></div><div class="line">  <span class="keyword">if</span> (self._localAreaDensity &gt; <span class="number">0</span>):</div><div class="line">    density = self._localAreaDensity</div><div class="line">  <span class="keyword">else</span>:</div><div class="line">    inhibitionArea = ((<span class="number">2</span>*self._inhibitionRadius + <span class="number">1</span>)</div><div class="line">                                  ** self._columnDimensions.size)</div><div class="line">    inhibitionArea = min(self._numColumns, inhibitionArea)</div><div class="line">    density = float(self._numActiveColumnsPerInhArea) / inhibitionArea</div><div class="line">    density = min(density, <span class="number">0.5</span>)</div><div class="line"></div><div class="line">  <span class="keyword">if</span> self._globalInhibition <span class="keyword">or</span> \</div><div class="line">    self._inhibitionRadius &gt; max(self._columnDimensions):</div><div class="line">    <span class="keyword">return</span> self._inhibitColumnsGlobal(overlaps, density)</div><div class="line">  <span class="keyword">else</span>:</div><div class="line">    <span class="keyword">return</span> self._inhibitColumnsLocal(overlaps, density)</div></pre></td></tr></table></figure></p></li>
+<li><p>Output of SP</p></li>
+</ol>
+<p><strong>Learning</strong>(optional): Hebbian learning: strengthen connections to active input, and weaken connections to inactive input. And any column that becomes so weakly connected to its potential inputs that it can never become active in the future has all its connections strengthened (to keep it from dying)</p>
+<p><strong>Boost</strong>(optional): Strengthen connections of columns who don’t have enough overlap with their inputs (relevant parameters: <code>minOverlapDutyCycles</code>, <code>synPermBelowStimulusInc</code>). Get ready to boost in the next cycle those columns that aren’t active enough (relevant parameter: <code>minActiveDutyCycles</code>)</p>
+<p>Finally, update inhibition radius.</p>
+<h4 id="temporal-pooler">Temporal Pooler</h4>
+<p>Temporal pooler learns transitions of SDRs. Both SP and TP operate on the same layer of cortical neurons.</p>
+<p>Input: state of cells from last timestep and activation of columns from the current timestep.</p>
+<p>Output: an activation of cells within columns, representing a selection of a particular context, and a prediction of cells. Predicted columns=&gt;next predicted SDR, predicted cells=&gt;context</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/" data-id="cj1d1b1040004c8ghorq05sw0" class="article-share-link">Share</a>
+      
+        <a href="http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" class="article-date">
@@ -116,7 +188,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" data-id="cj1b30dhl0006gsghnv8eqxzh" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" data-id="cj1d1b10w000ic8ghrf81v18e" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -176,7 +248,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj1b30dhh0005gsgh0qvvjbma" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/" data-id="cj1d1b10l000bc8gh88l8w0vg" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/04/A-Simple-Web-Crawler-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -236,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj1b30dh90004gsghf2ewz3y5" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/" data-id="cj1d1b1010003c8ghyzhjcme8" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/03/A-Simple-Web-Crawler/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -305,7 +377,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj1b30dhx000bgsghj3pfno9g" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/" data-id="cj1d1b10t000fc8ghb6dokns1" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/04/01/Takens-Theorem/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -366,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj1b30dhz000egsgh8elv59po" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/" data-id="cj1d1b10v000hc8ghlgjr9hwf" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/Sometimes-Naive/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -428,7 +500,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj1b30dgs0000gsgh4nph4ue5" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/28/2/" data-id="cj1d1b0zw0001c8gh66phyqv8" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/28/2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -485,7 +557,7 @@ match(x,y)=false, \text{if} x\neq y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj1b30dhp0009gsghp31po9ev" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/" data-id="cj1d1b10p000dc8gh6av7tv10" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/24/Chinese-Room-Revisit/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -554,7 +626,7 @@ overlap(x,y)=x\cdot y
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj1b30dh10002gsghc8423rry" class="article-share-link">Share</a>
+      <a data-url="http://hwangtamu.github.io/2017/03/22/1/" data-id="cj1d1b0zs0000c8ghekgylnmc" class="article-share-link">Share</a>
       
         <a href="http://hwangtamu.github.io/2017/03/22/1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -613,6 +685,10 @@ overlap(x,y)=x\cdot y
       <ul>
         
           <li>
+            <a href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/">Chetan Surpur: CLA in Nupic</a>
+          </li>
+        
+          <li>
             <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</a>
           </li>
         
@@ -626,10 +702,6 @@ overlap(x,y)=x\cdot y
         
           <li>
             <a href="/2017/04/01/Takens-Theorem/">Takens&#39; Theorem</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/28/Sometimes-Naive/">Sometimes Naive</a>
           </li>
         
       </ul>

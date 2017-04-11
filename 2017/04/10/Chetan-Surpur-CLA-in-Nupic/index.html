@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Chetan Surpur: CLA in Nupic | Han&#39;s Imaginary World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="This post is a text summary from Chetan Surpur’s slides:
+Overview
+SDR is distributed and sparse, which means each bit has semantic meaning and few bits are on, more are off.
+CLA is an algorithm tha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chetan Surpur: CLA in Nupic">
+<meta property="og:url" content="http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/index.html">
+<meta property="og:site_name" content="Han's Imaginary World">
+<meta property="og:description" content="This post is a text summary from Chetan Surpur’s slides:
+Overview
+SDR is distributed and sparse, which means each bit has semantic meaning and few bits are on, more are off.
+CLA is an algorithm tha">
+<meta property="og:updated_time" content="2017-04-11T04:15:20.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chetan Surpur: CLA in Nupic">
+<meta name="twitter:description" content="This post is a text summary from Chetan Surpur’s slides:
+Overview
+SDR is distributed and sparse, which means each bit has semantic meaning and few bits are on, more are off.
+CLA is an algorithm tha">
+  
+    <link rel="alternate" href="/atom.xml" title="Han&#39;s Imaginary World" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Han&#39;s Imaginary World</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/About">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://hwangtamu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Chetan-Surpur-CLA-in-Nupic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/" class="article-date">
+  <time datetime="2017-04-11T02:04:01.000Z" itemprop="datePublished">2017-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Chetan Surpur: CLA in Nupic
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is a text summary from Chetan Surpur’s <a href="http://chetansurpur.com/slides/2014/5/4/cla-in-nupic.html" target="_blank" rel="external">slides</a>:</p>
+<h3 id="overview">Overview</h3>
+<p><strong>SDR</strong> is distributed and sparse, which means each bit has semantic meaning and few bits are on, more are off.</p>
+<p><strong>CLA</strong> is an algorithm that describes the operation of a single layer of cortical neurons. The pattern can either be spatial or temporal. Each column represents some meaning, and each cell represents the same meaning to the column but in different context (this is the key of learning high-order sequences). Learning occurs by forming and un-forming connections between neurons (cells).</p>
+<h3 id="spatial-pooler">Spatial Pooler</h3>
+<p>Spatial pooler maps a non-sparse representation of bits to SDR, and unions similar inputs.</p>
+<p>Input: a vector of bits, can be the output of an encoder, or the cells in a previous layer.</p>
+<p>Output: activation of columns.</p>
+<p>Each cell in a column behaves identically, and the whole column is connected to inputs. Each column is mapped to a subset of input bits. More bits on, more likely the column becomes activated. The receptive field and percentage threshold of connections are controlled by <code>potentialRadius</code> and <code>potentialPct</code>. <code>potentialPct</code> helps adjacent columns learn to represent different inputs.</p>
+<p><strong>Permanence</strong> represents the potential for a connection to be formed between column and input. Minimum “connect” threshold: <code>synPermConnected</code> There are several ways to initialize the permanence of a cell: Gaussian, Random, etc.</p>
+<p>To force the output to be sparse, local inhibition is used to columns within a inhibition radius. The radius is dynamic with the growth and death of connections. It’s estimated with the average range of inputs that each column is connected to, and the average number of columns each input is connected to.</p>
+<h4 id="compute">Compute</h4>
+<ol style="list-style-type: decimal">
+<li>For each column, compute an “overlap score” that represents how many input bits are “actively connected” to the column.</li>
+<li>Boost if needed.</li>
+<li>Check inhibition: for each column, look at the neighboring columns within inhibition radius</li>
+<li>Keep the top N columns by overlap score</li>
+<li><p>N is chosen to achieve a desired sparsity(<code>localAreaDensity</code>,<code>numActiveColumnsPerInhArea</code>) <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_inhibitColumns</span><span class="params">(self, overlaps)</span>:</span></div><div class="line">  <span class="string">"""</span></div><div class="line">  Performs inhibition. This method calculates the necessary values needed to</div><div class="line">  actually perform inhibition and then delegates the task of picking the</div><div class="line">  active columns to helper functions.</div><div class="line"></div><div class="line">  Parameters:</div><div class="line">  ----------------------------</div><div class="line">  :param overlaps: an array containing the overlap score for each  column.</div><div class="line">                  The overlap score for a column is defined as the number</div><div class="line">                  of synapses in a "connected state" (connected synapses)</div><div class="line">                  that are connected to input bits which are turned on.</div><div class="line">  """</div><div class="line">  <span class="comment"># determine how many columns should be selected in the inhibition phase.</span></div><div class="line">  <span class="comment"># This can be specified by either setting the 'numActiveColumnsPerInhArea'</span></div><div class="line">  <span class="comment"># parameter or the 'localAreaDensity' parameter when initializing the class</span></div><div class="line">  <span class="keyword">if</span> (self._localAreaDensity &gt; <span class="number">0</span>):</div><div class="line">    density = self._localAreaDensity</div><div class="line">  <span class="keyword">else</span>:</div><div class="line">    inhibitionArea = ((<span class="number">2</span>*self._inhibitionRadius + <span class="number">1</span>)</div><div class="line">                                  ** self._columnDimensions.size)</div><div class="line">    inhibitionArea = min(self._numColumns, inhibitionArea)</div><div class="line">    density = float(self._numActiveColumnsPerInhArea) / inhibitionArea</div><div class="line">    density = min(density, <span class="number">0.5</span>)</div><div class="line"></div><div class="line">  <span class="keyword">if</span> self._globalInhibition <span class="keyword">or</span> \</div><div class="line">    self._inhibitionRadius &gt; max(self._columnDimensions):</div><div class="line">    <span class="keyword">return</span> self._inhibitColumnsGlobal(overlaps, density)</div><div class="line">  <span class="keyword">else</span>:</div><div class="line">    <span class="keyword">return</span> self._inhibitColumnsLocal(overlaps, density)</div></pre></td></tr></table></figure></p></li>
+<li><p>Output of SP</p></li>
+</ol>
+<p><strong>Learning</strong>(optional): Hebbian learning: strengthen connections to active input, and weaken connections to inactive input. And any column that becomes so weakly connected to its potential inputs that it can never become active in the future has all its connections strengthened (to keep it from dying)</p>
+<p><strong>Boost</strong>(optional): Strengthen connections of columns who don’t have enough overlap with their inputs (relevant parameters: <code>minOverlapDutyCycles</code>, <code>synPermBelowStimulusInc</code>). Get ready to boost in the next cycle those columns that aren’t active enough (relevant parameter: <code>minActiveDutyCycles</code>)</p>
+<p>Finally, update inhibition radius.</p>
+<h4 id="temporal-pooler">Temporal Pooler</h4>
+<p>Temporal pooler learns transitions of SDRs. Both SP and TP operate on the same layer of cortical neurons.</p>
+<p>Input: state of cells from last timestep and activation of columns from the current timestep.</p>
+<p>Output: an activation of cells within columns, representing a selection of a particular context, and a prediction of cells. Predicted columns=&gt;next predicted SDR, predicted cells=&gt;context</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/" data-id="cj1d1b1040004c8ghorq05sw0" class="article-share-link">Share</a>
+      
+        <a href="http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTM/">HTM</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dynamical-System/">Dynamical System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTM/">HTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opinions/">Opinions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Dynamical-System/" style="font-size: 10px;">Dynamical System</a> <a href="/tags/HTM/" style="font-size: 20px;">HTM</a> <a href="/tags/Opinions/" style="font-size: 15px;">Opinions</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/10/Chetan-Surpur-CLA-in-Nupic/">Chetan Surpur: CLA in Nupic</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/09/Why-Neurons-Have-Thousands-of-Synapses-a-Theory-of-Sequence-Mamory-in-Neocortex/">Why Neurons Have Thousands of Synapses, a Theory of Sequence Mamory in Neocortex</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/04/A-Simple-Web-Crawler-2/">A Simple Web Crawler 2</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/03/A-Simple-Web-Crawler/">A Simple Web Crawler</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/01/Takens-Theorem/">Takens&#39; Theorem</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <span id="busuanzi_container_site_uv">
+  You got <span id="busuanzi_value_site_uv"></span> visitors
+      </span>
+      &copy; 2017 Han Wang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/About" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'hwangtamu-github-io';
+  
+  var disqus_url = 'http://hwangtamu.github.io/2017/04/10/Chetan-Surpur-CLA-in-Nupic/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-96113475-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
